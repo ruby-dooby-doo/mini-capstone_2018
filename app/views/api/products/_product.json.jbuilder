@@ -8,3 +8,4 @@ json.formatted do
   json.tax product.tax
   json.total product.total
 end
+json.supplier product.supplier
