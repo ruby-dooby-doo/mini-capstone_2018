@@ -1,7 +1,6 @@
 json.id product.id
 json.name product.name
 json.price product.price
-json.image_url product.image_url
 json.description product.description
 json.formatted do
   json.discounted product.discounted?
@@ -9,3 +8,4 @@ json.formatted do
   json.total product.total
 end
 json.supplier product.supplier
+json.images product.images

@@ -41,11 +41,21 @@
 
 # associate the products with a supplier
 
-suppliers = Supplier.all
+# suppliers = Supplier.all
+
+# products = Product.all
+
+# products.each do |product|
+#   product.supplier_id = suppliers.sample.id
+#   product.save
+# end
+
+
+# make some new images
+# make a new image for each product in the products table
 
 products = Product.all
 
 products.each do |product|
-  product.supplier_id = suppliers.sample.id
-  product.save
+  Image.create(url: product.image_url, product_id: product.id)
 end

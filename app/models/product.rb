@@ -18,4 +18,9 @@ class Product < ApplicationRecord
     # go to the suppliers table and find that supplier
     Supplier.find_by(id: supplier_id)
   end
+
+  def images
+    # go to the images table, get all the images with the product_id that is the same id as the image that images is being called on
+    Image.where(product_id: id)
+  end
 end
