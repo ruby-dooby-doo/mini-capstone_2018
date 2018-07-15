@@ -1,4 +1,7 @@
 class Product < ApplicationRecord
+  belongs_to :supplier
+  has_many :images
+
   def discounted?
     price < 10
   end
@@ -11,16 +14,16 @@ class Product < ApplicationRecord
     price + tax
   end
 
-  def supplier
-    # return the supplier for this particular product
-    # supplier_id from this product
-    # supplier_id
-    # go to the suppliers table and find that supplier
-    Supplier.find_by(id: supplier_id)
-  end
+  # def supplier
+  #   # return the supplier for this particular product
+  #   # supplier_id from this product
+  #   # supplier_id
+  #   # go to the suppliers table and find that supplier
+  #   Supplier.find_by(id: supplier_id)
+  # end
 
-  def images
-    # go to the images table, get all the images with the product_id that is the same id as the image that images is being called on
-    Image.where(product_id: id)
-  end
+  # def images
+  #   # go to the images table, get all the images with the product_id that is the same id as the image that images is being called on
+  #   Image.where(product_id: id)
+  # end
 end
