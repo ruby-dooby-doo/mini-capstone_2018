@@ -9,12 +9,29 @@ class Api::OrdersController < ApplicationController
   end
 
   def create
-    p "*" * 50
-    p current_user
+    product = Product.find_by(id: params[:product_id])
+    p "product"
+    p product
+    p "quantity"
+    p params[:quantity]
+    p "product price"
+    p product.price
+    p product.price.to_s
+
+    calculated_subtotal = params[:quantity].to_i * product.price
+    calculated_tax = calculated_subtotal * 0.09
+    calculated_total = calculated_tax + calculated_subtotal
+    p calculated_subtotal
+    p calculated_tax
+    p calculated_total
+
     @order = Order.new(
       user_id: current_user.id,
       product_id: params[:product_id],
-      quantity: params[:quantity]
+      quantity: params[:quantity],
+      subtotal: calculated_subtotal,
+      tax: calculated_tax,
+      total: calculated_total
     )
     @order.save
     render "show.json.jbuilder"
