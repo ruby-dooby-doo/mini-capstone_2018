@@ -1,8 +1,8 @@
 class Api::ProductsController < ApplicationController
   def index
-    p '8' * 50
+    p "*" * 50
     p current_user
-    p '8' * 50
+    p "*" * 50
     search_term = params[:search_name]
     @products = Product.where("LOWER(name) LIKE ?", "%#{search_term}%").order(params[:sort_by])
     render 'index.json.jbuilder'
