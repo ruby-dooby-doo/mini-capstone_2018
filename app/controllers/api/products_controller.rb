@@ -1,10 +1,17 @@
 class Api::ProductsController < ApplicationController
   def index
-    p "*" * 50
-    p current_user
-    p "*" * 50
-    search_term = params[:search_name]
-    @products = Product.where("LOWER(name) LIKE ?", "%#{search_term}%").order(params[:sort_by])
+    # search_term = params[:search_name]
+    # @products = Product.where("LOWER(name) LIKE ?", "%#{search_term}%").order(params[:sort_by])
+    if params[:category]
+      # get me only the items from that category
+      # find all the products for a particular category
+      category = Category.find_by(name: params[:category])
+      p 'category'
+      p category
+      @products = category.products
+    else
+      @products = Product.all
+    end
     render 'index.json.jbuilder'
   end
 
