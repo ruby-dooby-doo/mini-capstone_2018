@@ -22,19 +22,25 @@ class Api::ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(
-                           name: params[:name],
-                           price: params[:price],
-                           description: params[:description],
-                           supplier_id: params[:supplier_id]
-                          )
+    # only an admin can do this
 
-    if @product.save
-      render 'show.json.jbuilder'
-    else # sad path
-      # what should i do here?
-      # json.errors @product.errors.full_messages
-      render json: {errors: @product.errors.full_messages}, status: :unprocessible_entity
+    if current_user && current_user.admin
+      @product = Product.new(
+                             name: params[:name],
+                             price: params[:price],
+                             description: params[:description],
+                             supplier_id: params[:supplier_id]
+                            )
+
+      if @product.save
+        render 'show.json.jbuilder'
+      else # sad path
+        # what should i do here?
+        # json.errors @product.errors.full_messages
+        render json: {errors: @product.errors.full_messages}, status: :unprocessible_entity
+      end
+    else
+      render json: {errors: ["you can't do that"]}, status: :unauthorized
     end
   end
 
