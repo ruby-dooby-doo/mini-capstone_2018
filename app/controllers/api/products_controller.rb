@@ -45,8 +45,12 @@ class Api::ProductsController < ApplicationController
     @product.price = params[:price] || @product.price
     @product.description = params[:description] || @product.description
 
-    @product.save
-    render 'show.json.jbuilder'
+    if @product.save
+      render 'show.json.jbuilder'
+    else
+      # send back the errors
+      render json: {errors: @product.errors.full_messages}, status: :unprocessible_entity
+    end
   end
 
   def destroy
