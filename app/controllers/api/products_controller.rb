@@ -29,8 +29,13 @@ class Api::ProductsController < ApplicationController
                            supplier_id: params[:supplier_id]
                           )
 
-    @product.save
-    render 'show.json.jbuilder'
+    if @product.save
+      render 'show.json.jbuilder'
+    else # sad path
+      # what should i do here?
+      # json.errors @product.errors.full_messages
+      render json: {errors: @product.errors.full_messages}, status: :unprocessible_entity
+    end
   end
 
   def update
