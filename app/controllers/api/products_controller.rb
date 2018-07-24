@@ -1,4 +1,6 @@
 class Api::ProductsController < ApplicationController
+  before_action :authenticate_admin, except: [:index, :show]
+
   def index
     # search_term = params[:search_name]
     # @products = Product.where("LOWER(name) LIKE ?", "%#{search_term}%").order(params[:sort_by])
@@ -23,24 +25,19 @@ class Api::ProductsController < ApplicationController
 
   def create
     # only an admin can do this
+    @product = Product.new(
+                           name: params[:name],
+                           price: params[:price],
+                           description: params[:description],
+                           supplier_id: params[:supplier_id]
+                          )
 
-    if current_user && current_user.admin
-      @product = Product.new(
-                             name: params[:name],
-                             price: params[:price],
-                             description: params[:description],
-                             supplier_id: params[:supplier_id]
-                            )
-
-      if @product.save
-        render 'show.json.jbuilder'
-      else # sad path
-        # what should i do here?
-        # json.errors @product.errors.full_messages
-        render json: {errors: @product.errors.full_messages}, status: :unprocessible_entity
-      end
-    else
-      render json: {errors: ["you can't do that"]}, status: :unauthorized
+    if @product.save
+      render 'show.json.jbuilder'
+    else # sad path
+      # what should i do here?
+      # json.errors @product.errors.full_messages
+      render json: {errors: @product.errors.full_messages}, status: :unprocessible_entity
     end
   end
 
